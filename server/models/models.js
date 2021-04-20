@@ -3,8 +3,8 @@ const {DataTypes} = require('sequelize');
 
 const Finance = sequelize.define('finance',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    date:{type:DataTypes.DATE, primaryKey:true, default: new Date()},
-    name: {type:DataTypes.STRING, primaryKey:true}
+    date:{type:DataTypes.DATE},
+    name: {type:DataTypes.STRING}
 })
 
 
@@ -17,7 +17,10 @@ const FinanceItem = sequelize.define('finance_item',{
 })
 
 Finance.hasMany(FinanceItem);
-FinanceItem.belongsTo(Finance);
+FinanceItem.belongsTo(Finance,{
+    onDelete: "CASCADE",
+    foreignKey:"financeId"
+});
 
 module.exports = {
     Finance,
