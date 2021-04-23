@@ -19,6 +19,7 @@ class FinanceController {
     }
 
     async update(req,res){
+        console.log(req.params)
         const finance = await Finance.update(req.body, {where: {id: req.params.id}, returning:true});
         return res.json(finance[1][0]);
     }
