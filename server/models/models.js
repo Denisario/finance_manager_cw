@@ -16,7 +16,7 @@ const FinanceItem = sequelize.define('finance_item',{
     category: {type:DataTypes.STRING}
 })
 
-Finance.hasMany(FinanceItem);
+const FinanceItems = Finance.hasMany(FinanceItem, {as: "finance_item"});
 FinanceItem.belongsTo(Finance,{
     onDelete: "CASCADE",
     foreignKey:"financeId"
@@ -24,5 +24,6 @@ FinanceItem.belongsTo(Finance,{
 
 module.exports = {
     Finance,
-    FinanceItem
+    FinanceItem,
+    FinanceItems
 }

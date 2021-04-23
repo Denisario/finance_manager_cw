@@ -16,7 +16,10 @@ const EditFinanceModal =({id,name, show, onHide})=>{
     }, [name]);
     
     return (
-        <Modal show={show} onHide={onHide} centered>
+        <Modal
+               show={show} 
+               onHide={onHide} 
+               centered>
             <Modal.Header>
                 <Modal.Title>
                     Edit finance
@@ -24,12 +27,19 @@ const EditFinanceModal =({id,name, show, onHide})=>{
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Control value={value} onChange={e=>setValue(e.target.value)} placeholder={"Enter finance name"}/>
+                    <Form.Control 
+                                  value={value} 
+                                  onChange={e=>setValue(e.target.value)} 
+                                  placeholder={"Enter finance name"}/>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="outline-danger" onClick={onHide}>Close</Button>
-                <Button variant="outline-success" onClick={addFinance}>Add</Button>
+                <Button 
+                        variant="outline-danger" 
+                        onClick={onHide}>Close</Button>
+                <Button 
+                        variant="outline-success" 
+                        onClick={addFinance}>Add</Button>
             </Modal.Footer>
         </Modal>
     );

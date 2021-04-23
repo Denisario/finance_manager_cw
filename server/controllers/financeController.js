@@ -1,10 +1,17 @@
-const {Finance, FinanceItem} = require("../models/models");
+const {Finance, FinanceItem, FinanceItems} = require("../models/models");
 
 class FinanceController {
     async create(req,res){
         const body = req.body;
+        console.log(body)
         body.date = new Date();
-        const finance = await Finance.create(body);
+        const finance = await Finance.create(body, 
+        {
+            include: [{
+                association: FinanceItems,
+                as: "finance_item"
+              }]      
+        });
         return res.json(finance);
     }
 
