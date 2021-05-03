@@ -27,8 +27,7 @@ const Finances = () => {
     useEffect(() => {
         axios.get("http://localhost:5000/api/finances").then((resp)=>{
             setFinances(resp.data);
-            console.log(resp.data);
-        });
+            });
     }, [setFinances]);
     
     return (

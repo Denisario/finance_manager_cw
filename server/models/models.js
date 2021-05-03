@@ -20,7 +20,7 @@ const Category = sequelize.define('categories',{
     name: {type:DataTypes.STRING}
 })
 
-Finance.hasMany(FinanceItem);
+Finance.FinanceItems = Finance.hasMany(FinanceItem);
 FinanceItem.belongsTo(Finance);
 
 Finance.belongsTo(Category);

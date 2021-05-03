@@ -12,11 +12,16 @@ app.use(express.json());
 app.use(cors());
 app.use("/api", routes);
 
+
+app.get('/refresh',async (req,res)=>{
+     await sequelize.sync({force:true});
+     res.send("Drop");
+})
 const start = async()=>{
     try{
         await sequelize.authenticate();
         await sequelize.sync();
-        //  await sequelize.sync({force:true});
+        
         app.listen(PORT, () => console.log(`Started on the port ${PORT}`));
 
     }catch(e){

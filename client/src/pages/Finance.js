@@ -1,8 +1,9 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Table } from 'react-bootstrap';
 import axios from "axios";
 import EditFinanceModal from '../components/EditFinanceModal';
 import {useHistory} from "react-router-dom";
+
 
 const Finance = (props) => {
     const financeId = useRef(props.match.params.id);
@@ -25,11 +26,11 @@ const Finance = (props) => {
     useEffect(() => {
         axios.get(`http://localhost:5000/api/finances/${financeId.current}`).then((resp)=>{
             setFinance(resp.data[0]);
+           
         });
     }, [setFinance]);
-    
-    console.log(finance);
-    return finance&&finance.finance_item?(
+    console.log(finance.finance_items);
+    return finance&&finance.category&&finance.finance_items?(
         <Container>
             <Button onClick={showEditModal}>Edit finance</Button>
             <Button onClick={deleteFinance}>Delete finance</Button>
@@ -41,11 +42,28 @@ const Finance = (props) => {
             <div>id: {finance.id}</div>
             <div>name: {finance.name}</div>
             <div>date: {finance.date}</div>
+            <div>category: {finance.category.name}</div>
+
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+        
             {
-                finance.finance_item.map((el,id)=>{
-                   return <div key={id}>Id: {el.id} Name: {el.name} Amount: {el.amount} Price: {el.price}</div>
+                finance.finance_items.map((el,id)=>{
+                    return <tr >
+                        <td>{el.name}</td>
+                        <td>{el.price}</td>
+                        <td>{el.amount}</td>
+                    </tr>
                 })
             }
+            </Table>
+
         </Container>        
     ):false;
 }

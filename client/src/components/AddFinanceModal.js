@@ -15,7 +15,8 @@ const AddFinanceModal =({show, onHide})=>{
         e.preventDefault();
 
         axios.post("http://localhost:5000/api/finances", {name: financeHeader.name, categoryId: +financeHeader.categoryId, finance_item: financeItems});
-        //window.location.reload();
+        console.log(financeItems);
+        // window.location.reload();
     }
 
     useEffect(() => {
@@ -64,7 +65,7 @@ const AddFinanceModal =({show, onHide})=>{
         financeList.length>2?setIsDisabled(true):setIsDisabled(false);
     }
         
-    return category?(
+    return (
         <Modal
                show={show} 
                onHide={onHide} 
@@ -109,7 +110,7 @@ const AddFinanceModal =({show, onHide})=>{
                         onClick={addFinance}>Добавить</Button>
             </Modal.Footer>
         </Modal>
-    ):false;
+    );
 }
 
 export default AddFinanceModal;
