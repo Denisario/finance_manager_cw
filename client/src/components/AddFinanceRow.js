@@ -22,12 +22,6 @@ const AddFinanceRow = (props) => {
                               onChange={props.handleChange} 
                               name="amount"/>
             </Col>
-            <Col sm>
-                <Form.Control 
-                              placeholder={"Category"} 
-                              onChange={props.handleChange} 
-                              name="category"/>
-            </Col>
             <Button 
                     onClick={props.del} 
                     disabled={!props.isDisabled}>Remove elem</Button>

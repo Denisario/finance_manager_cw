@@ -12,18 +12,22 @@ const FinanceItem = sequelize.define('finance_item',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type:DataTypes.STRING},
     amount: {type:DataTypes.STRING},
-    price: {type:DataTypes.INTEGER},
-    category: {type:DataTypes.STRING}
+    price: {type:DataTypes.INTEGER}
 })
 
-const FinanceItems = Finance.hasMany(FinanceItem, {as: "finance_item"});
-FinanceItem.belongsTo(Finance,{
-    onDelete: "CASCADE",
-    foreignKey:"financeId"
-});
+const Category = sequelize.define('categories',{
+    id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    name: {type:DataTypes.STRING}
+})
+
+Finance.hasMany(FinanceItem);
+FinanceItem.belongsTo(Finance);
+
+Finance.belongsTo(Category);
+Category.hasMany(Finance);
 
 module.exports = {
     Finance,
     FinanceItem,
-    FinanceItems
+    Category
 }

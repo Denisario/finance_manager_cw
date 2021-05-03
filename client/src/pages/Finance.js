@@ -28,7 +28,8 @@ const Finance = (props) => {
         });
     }, [setFinance]);
     
-    return finance?(
+    console.log(finance);
+    return finance&&finance.finance_item?(
         <Container>
             <Button onClick={showEditModal}>Edit finance</Button>
             <Button onClick={deleteFinance}>Delete finance</Button>
@@ -40,6 +41,11 @@ const Finance = (props) => {
             <div>id: {finance.id}</div>
             <div>name: {finance.name}</div>
             <div>date: {finance.date}</div>
+            {
+                finance.finance_item.map((el,id)=>{
+                   return <div key={id}>Id: {el.id} Name: {el.name} Amount: {el.amount} Price: {el.price}</div>
+                })
+            }
         </Container>        
     ):false;
 }

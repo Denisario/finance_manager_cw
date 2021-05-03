@@ -4,10 +4,12 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 import FinanceRow from "./FinanceRow";
 import AddFinanceModal from "../components/AddFinanceModal";
+import AddCategoryModal from "../components/AddCategoryModal";
 
 const Finances = () => {
     const [finances, setFinances] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [showFinanceModal, setFinanceShowModal] = useState(false);
+    const [showCategoryModal, setCategoryShowModal] = useState(false);
     const history = useHistory();
 
     const redirectToFinance = (id)=>{
@@ -15,21 +17,31 @@ const Finances = () => {
     }
 
     const showAddModal = ()=>{
-        setShowModal(true);
+        setFinanceShowModal(true);
+    }
+
+    const showCatModal = ()=>{
+        setCategoryShowModal(true);
     }
     
     useEffect(() => {
         axios.get("http://localhost:5000/api/finances").then((resp)=>{
             setFinances(resp.data);
+            console.log(resp.data);
         });
     }, [setFinances]);
     
     return (
         <Container>
             <Button onClick={showAddModal}>Add finance</Button>
+            <Button onClick={showCatModal}>Add category</Button>
             <AddFinanceModal 
-                             show={showModal} 
-                             onHide={()=>setShowModal(false)}/>
+                             show={showFinanceModal} 
+                             onHide={()=>setFinanceShowModal(false)}/>
+
+            <AddCategoryModal 
+                             show={showCategoryModal} 
+                             onHide={()=>setCategoryShowModal(false)}/>
 
             <Table striped bordered hover>
                 <thead>
@@ -37,6 +49,7 @@ const Finances = () => {
                         <th>Id</th>
                         <th>Name</th>
                         <th>Date</th>
+                        <th>Category</th>
                     </tr>
                 </thead>
                 <tbody>

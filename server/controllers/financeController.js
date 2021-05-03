@@ -1,17 +1,11 @@
-const {Finance, FinanceItem, FinanceItems} = require("../models/models");
+const {Finance, FinanceItem,FinanceItemCategories,Category, FinanceItems} = require("../models/models");
 
 class FinanceController {
     async create(req,res){
         const body = req.body;
-        console.log(body)
+        console.log(body);
         body.date = new Date();
-        const finance = await Finance.create(body, 
-        {
-            include: [{
-                association: FinanceItems,
-                as: "finance_item"
-              }]      
-        });
+        const finance = await Finance.create(body);
         return res.json(finance);
     }
 
@@ -21,7 +15,7 @@ class FinanceController {
     }
 
     async findById(req,res){
-        const finances = await Finance.findAll({where: {id: req.params.id}});
+        const finances = await Finance.findAll({where: {id: req.params.id}, include:[{model:FinanceItem,as: "finance_item", include:{model: Category}}]})
         return res.json(finances);
     }
 
