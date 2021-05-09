@@ -2,21 +2,20 @@ import React, {useState, useEffect} from 'react';
 import {Form, Modal, Button} from 'react-bootstrap';
 import axios from "axios";
 import AddFinanceRow from "./AddFinanceRow";
+import {useDispatch, useSelector} from "react-redux";
 
 const AddFinanceModal =({show, onHide})=>{
     const [financeHeader,setFinanceHeader] = useState({name:'', categoryId:''});
-    const [financeList, setFinanceList] = useState([1]); 
-    const [financeItems, setFinanceItems] = useState([]); 
+    const dispatch = useDispatch();
+    const financeItems = useSelector(state => state.addFinance);
     const [financeItem, setFinanceItem] = useState({});
-    const [isDisabled, setIsDisabled] = useState(false);
     const [category, setCategory] = useState([]);
 
     const addFinance = (e)=>{
         e.preventDefault();
 
-        axios.post("http://localhost:5000/api/finances", {name: financeHeader.name, categoryId: +financeHeader.categoryId, finance_item: financeItems});
-        console.log(financeItems);
-        // window.location.reload();
+        axios.post("http://localhost:5000/api/finances", {name: financeHeader.name, categoryId: +financeHeader.categoryId, finance_item: financeItems.financeItems});
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -27,44 +26,28 @@ const AddFinanceModal =({show, onHide})=>{
 
     const addRow = (event)=>{
        event.preventDefault();
-
-       setFinanceItems([...financeItems, financeItem]);
-       setFinanceItem({});  
-       setFinanceList([...financeList,+financeList[financeList.length-1]+1]);
-       financeList.length?setIsDisabled(true):setIsDisabled(false);
+       dispatch({type:"ADD_ROW", payload: financeItem});
     }
 
     const handleFinanceChange = (event)=>{
         event.preventDefault();
         const{name,value} = event.target;
         setFinanceHeader({...financeHeader, [name]: value});
-        console.log(name,value,financeHeader);
     }
     
 
     const handleItemChange = (event)=>{
         event.preventDefault();
         const{name,value} = event.target;
-        console.log(name,value);
-        financeItem[name] = value;
-        setFinanceItem(financeItem);
+        setFinanceItem({...financeItem, [name]: value});
     }
 
     // BUG WITH REMOVING
     const removeRow = (id,event)=>{
         event.preventDefault();
-
-        const copyFinanceList = Object.assign([],financeList);
-        copyFinanceList.splice(id, 1);
-        setFinanceList(copyFinanceList);
-
-        const copyFinanceItems = Object.assign([], financeItems);
-        copyFinanceItems.splice(id,1);
-        setFinanceItems(copyFinanceItems);
-
-        financeList.length>2?setIsDisabled(true):setIsDisabled(false);
+        dispatch({type: "DELETE_ROW", payload: id})
     }
-        
+
     return (
         <Modal
                show={show} 
@@ -90,12 +73,12 @@ const AddFinanceModal =({show, onHide})=>{
                         }
                     </Form.Control>
                     {
-                        financeList.map((el, id)=>{
+                        financeItems.financeList.map((el, id)=>{
                             return <AddFinanceRow 
                                                   key={id}
                                                   add={addRow}
                                                   del={removeRow.bind(this,id)}
-                                                  isDisabled={isDisabled}
+                                                  isDisabled={true}
                                                   handleChange={handleItemChange}
                                                  />
                         })

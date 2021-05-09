@@ -1,46 +1,42 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {Container, Table, Button} from 'react-bootstrap';
-import axios from "axios";
 import {useHistory} from "react-router-dom";
 import FinanceRow from "./FinanceRow";
 import AddFinanceModal from "../components/AddFinanceModal";
 import AddCategoryModal from "../components/AddCategoryModal";
+import { useSelector, useDispatch } from 'react-redux';
+import {fetchFinances} from "../store/asyncActions/finances";
 
 const Finances = () => {
-    const [finances, setFinances] = useState([]);
-    const [showFinanceModal, setFinanceShowModal] = useState(false);
-    const [showCategoryModal, setCategoryShowModal] = useState(false);
+    const dispatch = useDispatch();
+    const finances = useSelector(state => state.finances.finances);
+    const modals = useSelector(state => state.modals);
     const history = useHistory();
 
     const redirectToFinance = (id)=>{
         history.push(`/finance/${id}`);
     }
 
-    const showAddModal = ()=>{
-        setFinanceShowModal(true);
-    }
+    useEffect(()=>{
+        dispatch(fetchFinances());
+        return ()=>{
+            dispatch({type: "CLEAR_FINANCE"})
+        }
+    },[dispatch])
 
-    const showCatModal = ()=>{
-        setCategoryShowModal(true);
-    }
-    
-    useEffect(() => {
-        axios.get("http://localhost:5000/api/finances").then((resp)=>{
-            setFinances(resp.data);
-            });
-    }, [setFinances]);
-    
     return (
         <Container>
-            <Button onClick={showAddModal}>Add finance</Button>
-            <Button onClick={showCatModal}>Add category</Button>
+            <Button onClick={()=>dispatch({type: "SHOW_FINANCE_MODAL"})}>Add finance</Button>
+            <Button onClick={()=>dispatch({type: "SHOW_CATEGORY_MODAL"})}>Add category</Button>
             <AddFinanceModal 
-                             show={showFinanceModal} 
-                             onHide={()=>setFinanceShowModal(false)}/>
+                             show={modals.addFinanceModal}
+                             onHide={()=>dispatch({type:"SHOW_FINANCE_MODAL"})}
+                             />
 
             <AddCategoryModal 
-                             show={showCategoryModal} 
-                             onHide={()=>setCategoryShowModal(false)}/>
+                             show={modals.addCategoryModal}
+                             onHide={()=>dispatch({type:"SHOW_CATEGORY_MODAL"})}
+                             />
 
             <Table striped bordered hover>
                 <thead>
@@ -52,10 +48,11 @@ const Finances = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {finances.map((el)=>
-                            <FinanceRow key={el.id} redirect={redirectToFinance} el={el}/>
-                    )
-                    }
+                {
+                    finances.map((el,id)=>{
+                        return <FinanceRow key={id} redirect={redirectToFinance} el={el}/>
+                    })
+                }
                 </tbody>
             </Table>
         </Container>
