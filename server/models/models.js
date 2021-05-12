@@ -20,6 +20,12 @@ const Category = sequelize.define('categories',{
     name: {type:DataTypes.STRING}
 })
 
+const User = sequelize.define('users', {
+    id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+    password: {type:DataTypes.STRING},
+    email:{type:DataTypes.STRING}
+})
+
 Finance.FinanceItems = Finance.hasMany(FinanceItem);
 FinanceItem.belongsTo(Finance);
 
@@ -29,5 +35,6 @@ Category.hasMany(Finance);
 module.exports = {
     Finance,
     FinanceItem,
-    Category
+    Category,
+    User
 }
