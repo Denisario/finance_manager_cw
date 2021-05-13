@@ -1,7 +1,7 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {logIn, register} from "../store/asyncActions/users";
+import {register} from "../store/asyncActions/users";
 
 const Register = ()=>{
     const [data, setData] = useState();

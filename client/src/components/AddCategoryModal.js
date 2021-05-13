@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Form, Modal, Button} from 'react-bootstrap';
 import axios from "axios";
 
@@ -23,8 +23,7 @@ const AddCategoryModal =({show, onHide})=>{
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Control 
-                                  value={value} 
+                    <Form.Control value={value}
                                   onChange={e=>setValue(e.target.value)} 
                                   placeholder={"Enter category"}/>
                 </Form>

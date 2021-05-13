@@ -13,7 +13,7 @@ class UserController{
         const {email} = req.body.data;
         const user = await User.findAll({where: {email}});
         const token = await jwt.sign({email},"key", {expiresIn:"20m"});
-        return res.status(200).json({token: token, email: user.email});
+        return res.status(200).json({token: token, email: user[0].dataValues.email, id: user[0].dataValues.id});
     }
 }
 

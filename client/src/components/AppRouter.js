@@ -6,6 +6,7 @@ import Credit from '../pages/Credit';
 import Debt from "../pages/Debt";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import Profile from "../pages/Profile";
 
 const AppRouter = () => {
     return (        
@@ -16,6 +17,7 @@ const AppRouter = () => {
                 <Route path="/debt" component={Debt} exact/>
                 <Route path="/" component={Login} exact/>
                 <Route path="/register" component={Register} exact/>
+                <Route path="/profile" component={Profile} exact/>
         </Switch>
     )
 }

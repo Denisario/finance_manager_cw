@@ -2,10 +2,12 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {logIn} from "../store/asyncActions/users";
+import {useHistory} from "react-router-dom";
 
 const Login = ()=>{
     const [data, setData] = useState();
     const dispatch = useDispatch();
+    const history = useHistory();
     const handleChange = (e)=>{
         e.preventDefault();
         const {name, value} = e.target;
@@ -15,6 +17,7 @@ const Login = ()=>{
     const logInHandler = (e)=>{
         e.preventDefault();
         dispatch(logIn(data));
+        history.push("/profile")
     }
 
     return <Container>

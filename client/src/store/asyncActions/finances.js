@@ -11,7 +11,6 @@ export const fetchFinances = ()=>{
 
 export const fetchFinance = (id)=>{
     return (dispatch) => {
-        console.log(`http://localhost:5000/api/finances/${id}`);
         axios.get(`http://localhost:5000/api/finances/${id}`).then(data=>{
             dispatch(addFinanceAction(data.data));
         })
