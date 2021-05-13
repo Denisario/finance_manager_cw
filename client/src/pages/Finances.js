@@ -13,6 +13,7 @@ const Finances = () => {
     const modals = useSelector(state => state.modals);
     const history = useHistory();
 
+
     const redirectToFinance = (id)=>{
         history.push(`/finance/${id}`);
     }

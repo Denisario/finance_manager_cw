@@ -11,36 +11,36 @@ const Finance = sequelize.define('finance',{
 const FinanceItem = sequelize.define('finance_item',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type:DataTypes.STRING},
-    amount: {type:DataTypes.STRING},
+    amount: {type:DataTypes.INTEGER},
     price: {type:DataTypes.INTEGER}
-})
+},{timestamps:false})
 
 const Category = sequelize.define('categories',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     name: {type:DataTypes.STRING}
-})
+},{timestamps:false})
 
 const User = sequelize.define('users', {
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     password: {type:DataTypes.STRING},
     email:{type:DataTypes.STRING}
-})
+},{timestamps:false})
 
 const Procents = sequelize.define('procents',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     procents: {type:DataTypes.INTEGER}
-})
+},{timestamps:false})
 
 const Income = sequelize.define('incomes',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     header: {type:DataTypes.STRING},
-})
+},{timestamps:false})
 
 const IncomeItem = sequelize.define('income_items', {
     id: {type:DataTypes.INTEGER, primaryKey:true,autoIncrement:true},
     sum: {type:DataTypes.DECIMAL},
     title: {type:DataTypes.STRING},
-})
+},{timestamps:false})
 
 Finance.FinanceItems = Finance.hasMany(FinanceItem);
 FinanceItem.belongsTo(Finance);
