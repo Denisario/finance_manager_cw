@@ -7,6 +7,7 @@ import Debt from "../pages/Debt";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Profile from "../pages/Profile";
+import IncomeItems from "../pages/IncomeItems";
 
 const AppRouter = () => {
     return (        
@@ -18,6 +19,7 @@ const AppRouter = () => {
                 <Route path="/" component={Login} exact/>
                 <Route path="/register" component={Register} exact/>
                 <Route path="/profile" component={Profile} exact/>
+                <Route path="/income/:id" component={IncomeItems} exact/>
         </Switch>
     )
 }

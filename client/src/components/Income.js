@@ -5,6 +5,7 @@ import IncomeItem from "../pages/IncomeItem";
 import axios from "axios";
 
 const Income = (props)=>{
+    const [title, setTitle] = useState();
     const [incomeItem, setIncomeItem] = useState();
     const dispatch = useDispatch();
     const incomeItems = useSelector(state=>state.income);
@@ -19,7 +20,6 @@ const Income = (props)=>{
 
     const addIncomeRow = (e)=>{
         e.preventDefault();
-        console.log(incomeItem);
         dispatch({type: "ADD_INCOME", payload: incomeItem});
     }
 
@@ -34,9 +34,16 @@ const Income = (props)=>{
         setIncomeItem({...incomeItem, [name]: value})
     }
 
+    const handleTitleChange = (e)=>{
+        e.preventDefault();
+        const {name,value} = e.target;
+        setTitle(value);
+    }
+
     const saveMoney = (e)=>{
         e.preventDefault();
-        axios.post("http://localhost:5000/api/income", incomeItems.incomeItems);
+        axios.post("http://localhost:5000/api/income", {title, items:incomeItems.incomeItems});
+        window.location.reload();
     }
 
     return <Modal show={props.show} onHide={props.onHide} centered>
@@ -48,6 +55,7 @@ const Income = (props)=>{
         <Modal.Body>
             <Form>
                 <Container>
+                        <Form.Control placeholder={"Enter name"} name="header" onChange={(e)=>handleTitleChange(e)}/>
                     {
                         incomeItems.incomeList.map((el,id)=>{
                             return <IncomeItem add={addIncomeRow} del={deleteIncomeRow.bind(this, 123)} handleChange={handleIncomeChange} categories={category}></IncomeItem>

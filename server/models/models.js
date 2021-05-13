@@ -33,7 +33,13 @@ const Procents = sequelize.define('procents',{
 
 const Income = sequelize.define('incomes',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    sum : {type:DataTypes.DECIMAL},
+    header: {type:DataTypes.STRING},
+})
+
+const IncomeItem = sequelize.define('income_items', {
+    id: {type:DataTypes.INTEGER, primaryKey:true,autoIncrement:true},
+    sum: {type:DataTypes.DECIMAL},
+    title: {type:DataTypes.STRING},
 })
 
 Finance.FinanceItems = Finance.hasMany(FinanceItem);
@@ -42,8 +48,11 @@ FinanceItem.belongsTo(Finance);
 Finance.belongsTo(Category);
 Category.hasMany(Finance);
 
-Category.hasMany(Income);
-Income.belongsTo(Category);
+Category.hasMany(IncomeItem);
+IncomeItem.belongsTo(Category);
+
+Income.hasMany(IncomeItem);
+IncomeItem.belongsTo(Income);
 
 module.exports = {
     Finance,
@@ -51,5 +60,6 @@ module.exports = {
     Category,
     User,
     Procents, 
-    Income
+    Income,
+     IncomeItem
 }

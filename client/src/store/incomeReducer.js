@@ -1,7 +1,7 @@
 const defaultStore = {
     incomeItems:[],
     incomeList:[1],
-    fetchItems:[]
+    fetchItems:[],
 }
 
 const ADD_INCOME = "ADD_INCOME";
