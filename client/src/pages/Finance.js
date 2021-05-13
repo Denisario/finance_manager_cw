@@ -5,6 +5,7 @@ import EditFinanceModal from '../components/EditFinanceModal';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchFinance} from "../store/asyncActions/finances";
+import {Pie} from "react-chartjs-2";
 
 
 const Finance = (props) => {
@@ -27,7 +28,10 @@ const Finance = (props) => {
         dispatch(fetchFinance(financeId.current));
     }, [dispatch]);
 
+
+
     return finance&&finance.category&&finance.finance_items?(
+
         <Container>
             <Button onClick={()=>dispatch({type: "SHOW_EDIT_FINANCE_MODAL"})}>Edit finance</Button>
             <Button onClick={deleteFinance}>Delete finance</Button>
@@ -61,7 +65,18 @@ const Finance = (props) => {
             }
                 </tbody>
             </Table>
-
+            <Pie height={200} width={200}  data={{labels:[finance.finance_items.map(el=>el.name)], datasets:[
+                    {
+                        data:finance.finance_items.map(el=>el.amount*el.price),
+                        backgroundColor: [
+                            "#FF6384",
+                            "#63FF84",
+                            "#84FF63",
+                            "#8463FF",
+                            "#6384FF"
+                        ]
+                    }
+                ]}}></Pie>
         </Container>        
     ):false;
 }
