@@ -1,5 +1,6 @@
 import {Container, Row} from "react-bootstrap";
 import {useEffect, useRef, useState} from "react";
+import {Pie} from "react-chartjs-2";
 import axios from "axios";
 
 const IncomeItems = (props)=>{
@@ -22,6 +23,20 @@ const IncomeItems = (props)=>{
                 </Row>
             })
         }
+        <Row>
+            <Pie height={"10%"} width={"10%"}  data={{labels:[item.income_items.map(el=>el.title)], datasets:[
+                    {
+                        data:item.income_items.map(el=>el.sum),
+                        backgroundColor: [
+                            "#FF6384",
+                            "#63FF84",
+                            "#84FF63",
+                            "#8463FF",
+                            "#6384FF"
+                        ]
+                    }
+                ]}}></Pie>
+        </Row>
     </Container>:false;
 }
 
