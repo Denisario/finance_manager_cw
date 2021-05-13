@@ -13,7 +13,9 @@ const Income = (props)=>{
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/categories").then((resp)=>{
+        axios.get("http://localhost:5000/api/categories", {headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }}).then((resp)=>{
             setCategory(resp.data);
         });
     }, [setCategory]);

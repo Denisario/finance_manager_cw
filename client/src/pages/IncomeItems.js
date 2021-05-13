@@ -9,7 +9,9 @@ const IncomeItems = (props)=>{
     const [item, setItem] = useState();
 
     useEffect(()=>{
-        axios.get(`http://localhost:5000/api/income/${itemId.current}`).then(data=>data.data).then(data=>setItem(data[0]));
+        axios.get(`http://localhost:5000/api/income/${itemId.current}`,{headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }}).then(data=>data.data).then(data=>setItem(data[0]));
     },[setItem])
     console.log(item);
     return item?<Container>

@@ -4,9 +4,16 @@ module.exports = (req,res,next) => {
         return next();
     }
     
-    const token = req.headers.authorization.split(" ")[1];
-
-    const data = jwt.verify(token, "key");
-    req.user = data;
-    next();
+    try{
+        const token = req.headers.authorization.split(" ")[1];
+        console.log(req.headers.authorization);
+        if(!token){
+            return res.status(403).json({message: "ERROR AUTH"});
+        }
+        const data = jwt.verify(token, "key");
+        req.user = data;
+        next();
+    }catch (e){
+        res.status(403).json({message: "ERROR AUTH"});
+    }
 }

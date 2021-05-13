@@ -9,10 +9,9 @@ const REGISTER = "REGISTER";
 const GET_USER ="GET_USER";
 
 export const userReducer = (state = defaultStore, action)=>{
+    console.log(action);
     switch (action.type){
         case LOG_IN:
-            return {...state, username: action.payload.email, token:action.payload.token};
-        case REGISTER:
             return {...state, username: action.payload.email, token:action.payload.token};
         case LOG_OUT:
             return {...state, username: "", token: ""};
@@ -25,4 +24,3 @@ export const userReducer = (state = defaultStore, action)=>{
 }
 
 export const logInAction = (payload)=>({type:LOG_IN, payload});
-export const RegisterAction = ()=>({type:REGISTER});

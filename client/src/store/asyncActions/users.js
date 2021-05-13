@@ -3,7 +3,7 @@ import {logInAction, RegisterAction} from "../userReducer";
 
 export const logIn = (data)=>{
     return (dispatch) =>{
-        axios.post("http://localhost:5000/api/login",{data}).then(data=>{
+        axios.post("http://localhost:5000/api/login",{...data}).then(data=>{
             dispatch(logInAction(data.data));
             localStorage.setItem("username", data.data.email);
             localStorage.setItem("id", data.data.id);
@@ -14,8 +14,6 @@ export const logIn = (data)=>{
 
 export const register = (data)=> {
     return (dispatch) => {
-        axios.post("http://localhost:5000/api/register", {data}).then(data => {
-            dispatch(RegisterAction());
-        })
+        axios.post("http://localhost:5000/api/register", {...data});
     }
 }

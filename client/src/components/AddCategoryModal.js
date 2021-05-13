@@ -7,7 +7,9 @@ const AddCategoryModal =({show, onHide})=>{
 
     const addCategory = (e)=>{
         e.preventDefault();
-        axios.post(`http://localhost:5000/api/categories`, {name: value});
+        axios.post(`http://localhost:5000/api/categories`,{name: value}, {headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }});
         window.location.reload();
     }
     

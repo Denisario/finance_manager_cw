@@ -5,12 +5,12 @@ const {User} = require("../models/models");
 class UserController{
     async create(req,res){
         console.log(req.body);
-        const {email, password} =req.body.data;
+        const {email, password} =req.body;
         const user = await User.create({email, password:bcrypt.hashSync(password,10)});
         return res.status(200).json(user);
     }
     async findUserByUsername(req,res){
-        const {email} = req.body.data;
+        const {email} = req.body;
         const user = await User.findAll({where: {email}});
         const token = await jwt.sign({email},"key", {expiresIn:"20m"});
         return res.status(200).json({token: token, email: user[0].dataValues.email, id: user[0].dataValues.id});

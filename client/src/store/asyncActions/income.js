@@ -3,7 +3,9 @@ import {addIncomes} from "../incomeReducer";
 
 export const fetchIncome = ()=>{
     return (dispatch) =>{
-        axios.get("http://localhost:5000/api/income").then(data=>{
+        axios.get("http://localhost:5000/api/income",{headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }}).then(data=>{
             dispatch(addIncomes(data.data))
         });
     }

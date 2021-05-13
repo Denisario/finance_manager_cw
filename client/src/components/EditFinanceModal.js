@@ -7,7 +7,9 @@ const EditFinanceModal =({id,name, show, onHide})=>{
 
     const addFinance = (e)=>{
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/finances/${id}`, {name: value});
+        axios.put(`http://localhost:5000/api/finances/${id}`, {name: value},{headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }});
         window.location.reload();
     }
 

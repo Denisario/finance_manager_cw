@@ -1,10 +1,11 @@
 const Router =require('express');
 const router = new Router();
 const incomeController = require('../controllers/incomeController');
-
-router.get("/", incomeController.findAll);
-router.get("/:id", incomeController.findById);
-router.post("/", incomeController.create);
+const {incomeValidator, incomeValidationResult} = require('../validators/incomeValidator');
+const authMiddleware = require("../middleware/authMiddleware")
+router.get("/", authMiddleware,incomeController.findAll);
+router.get("/:id",authMiddleware, incomeController.findById);
+router.post("/",authMiddleware,incomeValidator, incomeValidationResult, incomeController.create);
 
 
 module.exports = router;

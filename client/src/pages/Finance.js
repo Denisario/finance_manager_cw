@@ -17,7 +17,9 @@ const Finance = (props) => {
 
 
     const deleteFinance = ()=>{
-        axios.delete(`http://localhost:5000/api/finances/${financeId.current}`);
+        axios.delete(`http://localhost:5000/api/finances/${financeId.current}`,{headers: {
+            authorization: "Bearer "+localStorage.getItem("token")
+        }});
         history.push("/finances");
 
         window.location.reload();

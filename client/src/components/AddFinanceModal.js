@@ -14,12 +14,19 @@ const AddFinanceModal =({show, onHide})=>{
     const addFinance = (e)=>{
         e.preventDefault();
 
-        axios.post("http://localhost:5000/api/finances", {name: financeHeader.name, categoryId: +financeHeader.categoryId, finance_item: financeItems.financeItems});
+        axios.post("http://localhost:5000/api/finances",
+            {name: financeHeader.name,
+                categoryId: +financeHeader.categoryId,
+                finance_item: financeItems.financeItems},{headers: {
+                    authorization: "Bearer"+localStorage.getItem("token")
+                }});
         window.location.reload();
     }
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/categories").then((resp)=>{
+        axios.get("http://localhost:5000/api/categories",{headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }}).then((resp)=>{
             setCategory(resp.data); 
         });
     }, [setCategory]);
