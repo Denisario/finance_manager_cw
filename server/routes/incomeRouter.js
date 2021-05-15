@@ -5,7 +5,7 @@ const {incomeValidator, incomeValidationResult} = require('../validators/incomeV
 const authMiddleware = require("../middleware/authMiddleware")
 router.get("/", authMiddleware,incomeController.findAll);
 router.get("/:id",authMiddleware, incomeController.findById);
-router.post("/",authMiddleware,incomeValidator, incomeValidationResult, incomeController.create);
+router.post("/",incomeValidator, incomeValidationResult,authMiddleware, incomeController.create);
 
 
 module.exports = router;

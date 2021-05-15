@@ -12,6 +12,8 @@ class FinanceController {
     }
 
     async findAll(req,res){
+        console.log(req.user);
+
         const finances = await Finance.findAll({include:{model:Category, as:'category'}});
         return res.json(finances);
     }

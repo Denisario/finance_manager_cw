@@ -26,11 +26,6 @@ const User = sequelize.define('users', {
     email:{type:DataTypes.STRING}
 },{timestamps:false})
 
-const Procents = sequelize.define('procents',{
-    id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
-    procents: {type:DataTypes.INTEGER}
-},{timestamps:false})
-
 const Income = sequelize.define('incomes',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     header: {type:DataTypes.STRING},
@@ -54,12 +49,20 @@ IncomeItem.belongsTo(Category);
 Income.hasMany(IncomeItem);
 IncomeItem.belongsTo(Income);
 
+User.hasMany(Finance);
+Finance.belongsTo(User);
+
+User.hasMany(Category);
+Category.belongsTo(User);
+
+User.hasMany(Income);
+Income.belongsTo(User);
+
 module.exports = {
     Finance,
     FinanceItem,
     Category,
     User,
-    Procents, 
     Income,
-     IncomeItem
+    IncomeItem
 }

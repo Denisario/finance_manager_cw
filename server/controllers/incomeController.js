@@ -17,6 +17,7 @@ class IncomeController{
     }
 
     async findById(req,res){
+        console.log("da");
         const data = await Income.findAll({where: {id: req.params.id}, include:{model:IncomeItem, as:"income_items", include:{model:Category, as:"category"}}});
         console.log(data);
         res.status(200).json(data);
