@@ -18,7 +18,7 @@ const AddFinanceModal =({show, onHide})=>{
             {name: financeHeader.name,
                 categoryId: +financeHeader.categoryId,
                 finance_item: financeItems.financeItems},{headers: {
-                    authorization: "Bearer"+localStorage.getItem("token")
+                    authorization: "Bearer "+localStorage.getItem("token")
                 }});
         window.location.reload();
     }

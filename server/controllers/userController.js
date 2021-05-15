@@ -38,7 +38,7 @@ class UserController{
         }
 
         const token = await jwt.sign({id: user[0].id},"key", {expiresIn:"20m"});
-        
+
         return res.status(200).json({token: token, email: user[0].email, id: user[0].id});
     }
 }
