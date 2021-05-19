@@ -13,7 +13,6 @@ const IncomeItems = (props)=>{
                 authorization: "Bearer "+localStorage.getItem("token")
             }}).then(data=>data.data).then(data=>setItem(data[0]));
     },[setItem])
-    console.log(item);
     return item?<Container>
         <Row>
             <div>Name:{item.header}</div>

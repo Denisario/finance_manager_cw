@@ -5,11 +5,9 @@ const defaultStore = {
 
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
-const REGISTER = "REGISTER";
 const GET_USER ="GET_USER";
 
 export const userReducer = (state = defaultStore, action)=>{
-    console.log(action);
     switch (action.type){
         case LOG_IN:
             return {...state, username: action.payload.email, token:action.payload.token};

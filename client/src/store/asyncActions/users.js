@@ -1,5 +1,5 @@
 import axios from "axios";
-import {logInAction, RegisterAction} from "../userReducer";
+import {logInAction} from "../userReducer";
 
 export const logIn = (data)=>{
     return (dispatch) =>{

@@ -41,7 +41,6 @@ const Profile = (props)=>{
         dispatch({type:"SHOW_CATEGORY_MODAL"})
     }
 
-    console.log(income);
     return <Container>
         <Row>
             <div>Welcome {localStorage.getItem("username")}</div>

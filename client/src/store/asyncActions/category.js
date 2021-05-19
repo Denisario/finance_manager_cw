@@ -11,3 +11,11 @@ export const fetchCategories = ()=>{
     }
 }
 
+export const addCategoryAction = (value)=>{
+    return ()=>{
+        axios.post(`http://localhost:5000/api/categories`,{name: value}, {headers: {
+                authorization: "Bearer "+localStorage.getItem("token")
+            }});
+    }
+}
+

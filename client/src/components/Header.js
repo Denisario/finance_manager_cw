@@ -1,36 +1,38 @@
-import {Col, Container, Nav, Row} from "react-bootstrap";
+import {Container, Nav, Row} from "react-bootstrap";
 import {useState} from "react";
+import {useHistory} from "react-router-dom";
 
 const Header = (props)=>{
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("username")===null);
+    const history = useHistory();
 
-    const logOut = (e)=>{
-        e.preventDefault();
+    const logout = ()=>{
         localStorage.clear();
+        setIsLoggedIn(false);
+        history.push("/");
     }
 
-
-    return <Nav fill onSelect={(item)=>setIsLoggedIn(true)}>
+    return <Nav fill onSelect={()=>logout()}>
         <Container>
            <Row>
                {
-                   !isLoggedIn&&<Nav.Item>
+                   isLoggedIn&&<Nav.Item>
                        <Nav.Link href="/profile">{localStorage.getItem("username")}</Nav.Link>
                    </Nav.Item>
                }
 
                {
-                   isLoggedIn&&<Nav.Item>
+                   !isLoggedIn&&<Nav.Item>
                        <Nav.Link href="/">Login</Nav.Link>
                    </Nav.Item>
                }
                {
-                   isLoggedIn&&<Nav.Item>
+                   !isLoggedIn&&<Nav.Item>
                        <Nav.Link href="/register">Register</Nav.Link>
                    </Nav.Item>
                }
                {
-                   !isLoggedIn&&<Nav.Item>
+                   isLoggedIn&&<Nav.Item>
                        <Nav.Link eventKey="logout">Logout</Nav.Link>
                    </Nav.Item>
                }

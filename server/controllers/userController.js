@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {User} = require("../models/models");
-
+const webDav = require("../other/webdav");
 class UserController{
     async create(req,res){
         const {email, password, repeatPassword} =req.body;
@@ -18,6 +18,11 @@ class UserController{
 
         const user = await User.create({email, password:bcrypt.hashSync(password,10)},{raw: true});
         delete user.password;
+
+        webDav.createUserFolder(user.dataValues.email);
+
+        console.log(user);
+
 
         return res.status(200).json(user);
     }
@@ -37,7 +42,7 @@ class UserController{
             return  res.status(400).json({"message": "Wrong password"});
         }
 
-        const token = await jwt.sign({id: user[0].id},"key", {expiresIn:"20m"});
+        const token = await jwt.sign({id: user[0].id, email: user[0].email},"key", {expiresIn:"24h"});
 
         return res.status(200).json({token: token, email: user[0].email, id: user[0].id});
     }

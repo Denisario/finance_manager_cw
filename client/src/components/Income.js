@@ -1,54 +1,44 @@
-import {Button, Col, Container, Form, Modal, Row} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
+import {Button, Container, Form, Modal} from "react-bootstrap";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import IncomeItem from "../pages/IncomeItem";
-import axios from "axios";
+import {addMoneyAction} from "../store/asyncActions/income";
 
 const Income = (props)=>{
-    const [title, setTitle] = useState();
-    const [incomeItem, setIncomeItem] = useState();
     const dispatch = useDispatch();
     const incomeItems = useSelector(state=>state.income);
 
-    const [category, setCategory] = useState([]);
+    const categories = useSelector(state=>state.categories.categories);
 
-    useEffect(() => {
-        axios.get("http://localhost:5000/api/categories", {headers: {
-                authorization: "Bearer "+localStorage.getItem("token")
-            }}).then((resp)=>{
-            setCategory(resp.data);
-        });
-    }, [setCategory]);
 
     const addIncomeRow = (e)=>{
         e.preventDefault();
-        dispatch({type: "ADD_INCOME", payload: incomeItem});
+        dispatch({type: "ADD_INCOME", payload: incomeItems.incomeItem});
     }
 
     const deleteIncomeRow =(item,e)=>{
         e.preventDefault();
-            dispatch({type: "DELETE_INCOME", payload: item})
+        dispatch({type: "DELETE_INCOME", payload: item})
     }
 
     const handleIncomeChange = (e)=>{
         e.preventDefault();
         const {name,value} = e.target;
-        setIncomeItem({...incomeItem, [name]: value})
+        dispatch({type: "ADD_INCOME_ITEM", payload: {name,value}})
     }
 
     const handleTitleChange = (e)=>{
         e.preventDefault();
-        const {name,value} = e.target;
-        setTitle(value);
+        const {value} = e.target;
+        dispatch({type: "ADD_TITLE", payload: value});
     }
 
     const saveMoney = (e)=>{
         e.preventDefault();
-        console.log({title, items:incomeItems.incomeItems});
-        debugger;
-        axios.post("http://localhost:5000/api/income", {title,userId: localStorage.getItem("id"), items:incomeItems.incomeItems},{headers: {
-                authorization: "Bearer "+localStorage.getItem("token")
-            }});
+        // axios.post("http://localhost:5000/api/income", {data.title,userId: localStorage.getItem("id"), items:incomeItems.incomeItems},{headers: {
+        //         authorization: "Bearer "+localStorage.getItem("token")
+        //     }});
+        dispatch(addMoneyAction(incomeItems));
         window.location.reload();
     }
 
@@ -64,7 +54,7 @@ const Income = (props)=>{
                         <Form.Control placeholder={"Enter name"} name="header" onChange={(e)=>handleTitleChange(e)}/>
                     {
                         incomeItems.incomeList.map((el,id)=>{
-                            return <IncomeItem add={addIncomeRow} del={deleteIncomeRow.bind(this, 123)} handleChange={handleIncomeChange} categories={category}></IncomeItem>
+                            return <IncomeItem add={addIncomeRow} del={deleteIncomeRow.bind(this, 123)} handleChange={handleIncomeChange} categories={categories}></IncomeItem>
                         })
                     }
                 </Container>

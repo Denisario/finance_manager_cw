@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 
 class IncomeController{
     async create(req,res){
+
         const income = req.body;
 
 

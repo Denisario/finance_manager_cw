@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Form, Modal, Button} from 'react-bootstrap';
-import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {editFinanceAction} from "../store/asyncActions/finances";
 
-const EditFinanceModal =({id,name, show, onHide})=>{
-    const [value,setValue] = useState('');
+const EditFinanceModal =({id,name,show, onHide})=>{
+    const value = useSelector(state=>state.addFinance.financeHeader);
+    const dispatch = useDispatch();
 
     const addFinance = (e)=>{
         e.preventDefault();
-        axios.put(`http://localhost:5000/api/finances/${id}`, {name: value},{headers: {
-                authorization: "Bearer "+localStorage.getItem("token")
-            }});
+        dispatch(editFinanceAction(id, value));
         window.location.reload();
     }
 
     useEffect(() => {
-        setValue(name);
-    }, [name]);
-    
+        dispatch({type: "ADD_FINANCE_HEADER", payload: name});
+    }, [dispatch, name]);
+
     return (
         <Modal
                show={show} 
@@ -31,7 +31,7 @@ const EditFinanceModal =({id,name, show, onHide})=>{
                 <Form>
                     <Form.Control 
                                   value={value} 
-                                  onChange={e=>setValue(e.target.value)} 
+                                  onChange={e=>dispatch({type: "ADD_FINANCE_HEADER", payload: e.target.value})}
                                   placeholder={"Enter finance name"}/>
                 </Form>
             </Modal.Body>

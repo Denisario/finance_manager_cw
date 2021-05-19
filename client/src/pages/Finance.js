@@ -31,9 +31,7 @@ const Finance = (props) => {
     }, [dispatch]);
 
 
-
     return finance&&finance.category&&finance.finance_items?(
-
         <Container>
             <Button onClick={()=>dispatch({type: "SHOW_EDIT_FINANCE_MODAL"})}>Edit finance</Button>
             <Button onClick={deleteFinance}>Delete finance</Button>
@@ -46,6 +44,7 @@ const Finance = (props) => {
             <div>name: {finance.name}</div>
             <div>date: {finance.date}</div>
             <div>category: {finance.category.name}</div>
+            <img src={`http://localhost:5000/api/files/${financeId.current}`} alt="Finance image photo"></img>
 
             <Table striped bordered hover>
                 <thead>

@@ -1,6 +1,6 @@
 const defaultStore = {
     finances:[],
-    finance: {}
+    finance: {},
 }
 
 const GET_FINANCES = "GET_FINANCES";
@@ -8,6 +8,7 @@ const ADD_FINANCES = "ADD_FINANCES";
 const REMOVE_FINANCE = "REMOVE_FINANCE";
 const CLEAR_FINANCE = "CLEAR_FINANCE";
 const GET_FINANCE_BY_ID = "GET_FINANCE_BY_ID";
+
 export const financesReducer = (state=defaultStore, action) =>{
     switch (action.type){
         case GET_FINANCES:

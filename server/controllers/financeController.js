@@ -6,7 +6,6 @@ class FinanceController {
         const body = req.body;
         body.date = new Date();
         body.userId = req.user.id;
-
         const finance = await Finance.create(body);
 
 
@@ -18,8 +17,10 @@ class FinanceController {
     }
 
     async findAll(req,res){
+        console.log(req.query);
 
-        const finances = await Finance.findAll({where: {userId: req.user.id},include:{model:Category, as:'category'}});
+        // date: {[Op.lt]: req.query.startDate, [Op.gt]: req.query.finishDate}
+        const finances = await Finance.findAll({where:{userId: req.user.id},include:{model:Category, as:'category'}, limit: req.query.itemsPerPage, offset: req.query.page*req.query.page});
         return res.json(finances);
     }
 

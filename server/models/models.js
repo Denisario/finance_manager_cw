@@ -4,7 +4,8 @@ const {DataTypes} = require('sequelize');
 const Finance = sequelize.define('finance',{
     id:{type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     date:{type:DataTypes.DATE},
-    name: {type:DataTypes.STRING}
+    name: {type:DataTypes.STRING},
+    imgName: {type:DataTypes.STRING}
 })
 
 

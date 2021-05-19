@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Form, Modal, Button} from 'react-bootstrap';
-import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {addCategoryAction} from "../store/asyncActions/category";
 
 const AddCategoryModal =({show, onHide})=>{
-    const [value,setValue] = useState('');
+    const value = useSelector(state=>state.categories.addCategoryName);
+    const dispatch = useDispatch();
 
     const addCategory = (e)=>{
         e.preventDefault();
-        axios.post(`http://localhost:5000/api/categories`,{name: value}, {headers: {
-                authorization: "Bearer "+localStorage.getItem("token")
-            }});
+        dispatch(addCategoryAction(value));
         window.location.reload();
     }
     
@@ -26,7 +26,7 @@ const AddCategoryModal =({show, onHide})=>{
             <Modal.Body>
                 <Form>
                     <Form.Control value={value}
-                                  onChange={e=>setValue(e.target.value)} 
+                                  onChange={e=>dispatch({type: "ADD_CATEGORY", payload: e.target.value})}
                                   placeholder={"Enter category"}/>
                 </Form>
             </Modal.Body>
