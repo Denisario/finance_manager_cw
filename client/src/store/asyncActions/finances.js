@@ -1,9 +1,18 @@
 import axios from "axios";
 import {addFinanceAction, addFinancesAction} from "../financesReducer";
 
-export const fetchFinances = (page,itemsPerPage)=>{
+export const fetchFinances = (page,itemsPerPage,startDate,finishDate)=>{
+
     return (dispatch) =>{
-        axios.get(`http://localhost:5000/api/finances?page=${page}&&itemsPerPage=${itemsPerPage}`,{headers: {
+        console.log(page,itemsPerPage,startDate,finishDate);
+        let url = `http://localhost:5000/api/finances?page=${page}&&itemsPerPage=${itemsPerPage}`;
+        if(startDate){
+            url+=`&&startDate=${new Date(startDate).toISOString().replace('T',' ').replace('Z','')};`
+        }
+        if(finishDate){
+            url+=`&&finishDate=${new Date(finishDate).toISOString().replace('T',' ').replace('Z','')}`
+        }
+        axios.get(url,{headers: {
             authorization: "Bearer "+localStorage.getItem("token")
             }}).then(data=>{
             dispatch(addFinancesAction(data.data))

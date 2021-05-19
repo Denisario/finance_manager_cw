@@ -12,7 +12,6 @@ export const fetchIncome = ()=>{
 }
 
 export const addMoneyAction = (data)=>{
-    console.log(data);
     return ()=>{
         axios.post("http://localhost:5000/api/income", {title: data.title,userId: localStorage.getItem("id"), items:data.incomeItems},{headers: {
                 authorization: "Bearer "+localStorage.getItem("token")

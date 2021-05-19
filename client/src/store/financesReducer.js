@@ -1,6 +1,7 @@
 const defaultStore = {
     finances:[],
     finance: {},
+    tolalFinances: 0
 }
 
 const GET_FINANCES = "GET_FINANCES";
@@ -14,7 +15,7 @@ export const financesReducer = (state=defaultStore, action) =>{
         case GET_FINANCES:
             return state.finances;
         case ADD_FINANCES:
-            return {...state, finances: [...state.finances, ...action.payload]};
+            return {...state, finances: [...state.finances, ...action.payload.finances], totalFinances: action.payload.totalFinances};
         case REMOVE_FINANCE:
             return {...state, finances: state.finances.filter(finance => finance.id !== action.payload)};
         case CLEAR_FINANCE:

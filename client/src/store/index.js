@@ -8,6 +8,7 @@ import {userReducer} from "./userReducer";
 import {categoryReducer} from "./categoriesReducer";
 import {incomeReducer} from "./incomeReducer";
 import {paginatorReducer} from "./paginatorReducer";
+import {dateReducer} from "./dateReducer";
 const rootReducer = combineReducers({
     finances: financesReducer,
     modals: modalsReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     categories: categoryReducer,
     income: incomeReducer,
-    paginator: paginatorReducer
+    paginator: paginatorReducer,
+    date: dateReducer
 })
 export const store =  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

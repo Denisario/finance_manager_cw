@@ -1,5 +1,5 @@
-const {Finance, FinanceItem,FinanceItemCategories,Category, FinanceItems} = require("../models/models");
-const { Op } = require("sequelize");
+const {Finance, FinanceItem,Category} = require("../models/models");
+const sequelize = require("sequelize");
 
 class FinanceController {
     async create(req,res){
@@ -8,7 +8,7 @@ class FinanceController {
         body.userId = req.user.id;
         const finance = await Finance.create(body);
 
-
+        console.log(body.date);
         await body.finance_item.forEach(el=>el.financeId = finance.dataValues.id);
         const finItems = await FinanceItem.bulkCreate(body.finance_item);
 
@@ -17,15 +17,27 @@ class FinanceController {
     }
 
     async findAll(req,res){
-        console.log(req.query);
+        let data = {userId: req.user.id};
 
-        // date: {[Op.lt]: req.query.startDate, [Op.gt]: req.query.finishDate}
-        const finances = await Finance.findAll({where:{userId: req.user.id},include:{model:Category, as:'category'}, limit: req.query.itemsPerPage, offset: req.query.page*req.query.page});
-        return res.json(finances);
+        if(req.query.startDate){
+            data = {userId: req.user.id, date:{[sequelize.Op.gt]: new Date(req.query.startDate)}};
+        }
+
+        if(req.query.finishDate){
+            data = {userId: req.user.id, date:{[sequelize.Op.lt]: new Date(req.query.finishDate)}};
+        }
+
+        if(req.query.finishDate&&req.query.startDate){
+            data = {userId: req.user.id, date:{[sequelize.Op.between]: [new Date(req.query.startDate),new Date(req.query.finishDate)]}};
+        }
+
+        const col = await Finance.count({where:data});
+        const finances = await Finance.findAll({where:data,order:[['date', "DESC"]],include:{model:Category, as:'category'}, limit: req.query.itemsPerPage, offset: req.query.page*req.query.itemsPerPage});
+        return res.json({totalFinances: col, finances});
     }
 
     async findById(req,res){
-        const finances = await Finance.findAll({where: {[Op.and]:[
+        const finances = await Finance.findAll({where: {[sequelize.Op.and]:[
                     {id: req.params.id},
                     {userId: req.user.id}
                 ]}, include:[{model:Category, as:'category'},{model:FinanceItem, as:'finance_items'}]});
@@ -37,7 +49,7 @@ class FinanceController {
     }
 
     async update(req,res){
-        const finance = await Finance.update(req.body, {where: {[Op.and]:[
+        const finance = await Finance.update(req.body, {where: {[sequelize.Op.and]:[
                     {id: req.params.id},
                     {userId: req.user.id}
                 ]}, returning:true});

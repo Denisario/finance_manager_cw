@@ -5,7 +5,7 @@ const FinanceRow = (props) => {
         <tr onClick={()=>props.redirect(props.el.id)}>
             <td>{props.el.id}</td>
             <td>{props.el.name}</td>
-            <td>{props.el.date}</td>
+            <td>{new Date(props.el.date).toISOString().replace('T',' ').replace('Z','')}</td>
             <td>{props.el.category.name}</td>
         </tr>
     )
