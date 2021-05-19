@@ -35,9 +35,6 @@ const Income = (props)=>{
 
     const saveMoney = (e)=>{
         e.preventDefault();
-        // axios.post("http://localhost:5000/api/income", {data.title,userId: localStorage.getItem("id"), items:incomeItems.incomeItems},{headers: {
-        //         authorization: "Bearer "+localStorage.getItem("token")
-        //     }});
         dispatch(addMoneyAction(incomeItems));
         window.location.reload();
     }

@@ -29,7 +29,6 @@ const Finances = () => {
         }
     },[dispatch,paginator.page,paginator.itemsPerPage,dates.startDate,dates.finishDate])
 
-    console.log(dates)
     return (
         <Container>
             <Button onClick={()=>dispatch({type: "SHOW_FINANCE_MODAL"})}>Add finance</Button>

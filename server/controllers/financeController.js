@@ -1,6 +1,6 @@
 const {Finance, FinanceItem,Category} = require("../models/models");
 const sequelize = require("sequelize");
-
+const db = require("../db");
 class FinanceController {
     async create(req,res){
         const body = req.body;
@@ -8,7 +8,6 @@ class FinanceController {
         body.userId = req.user.id;
         const finance = await Finance.create(body);
 
-        console.log(body.date);
         await body.finance_item.forEach(el=>el.financeId = finance.dataValues.id);
         const finItems = await FinanceItem.bulkCreate(body.finance_item);
 
@@ -34,6 +33,24 @@ class FinanceController {
         const col = await Finance.count({where:data});
         const finances = await Finance.findAll({where:data,order:[['date', "DESC"]],include:{model:Category, as:'category'}, limit: req.query.itemsPerPage, offset: req.query.page*req.query.itemsPerPage});
         return res.json({totalFinances: col, finances});
+    }
+
+    async findStat(req,res){
+        let query = `select sum(fi."amount"*fi."price"), finances.name, finances.date from finances inner join finance_items fi on finances.id = fi."financeId" group by finances.name,finances.date`
+
+        if(req.query.startDate){
+            query = `select sum(fi."amount"*fi."price"), finances.name, finances.date from finances inner join finance_items fi on finances.id = fi."financeId" where finances.date >= '${req.query.startDate}' group by finances.name,finances.date`
+        }
+
+        if(req.query.finishDate){
+            query = `select sum(fi."amount"*fi."price"), finances.name, finances.date from finances inner join finance_items fi on finances.id = fi."financeId" where finances.date <= '${req.query.finishDate}' group by finances.name,finances.date`
+        }
+
+        if(req.query.startDate&&req.query.finishDate){
+            query = `select sum(fi."amount"*fi."price"), finances.name, finances.date from finances inner join finance_items fi on finances.id = fi."financeId" where finances.date <= '${req.query.finishDate}' and finances.date >= '${req.query.startDate}' group by finances.name,finances.date`
+        }
+        const finances = await db.query(query);
+        res.status(200).json(finances[0]);
     }
 
     async findById(req,res){

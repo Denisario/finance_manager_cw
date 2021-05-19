@@ -8,6 +8,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Profile from "../pages/Profile";
 import IncomeItems from "../pages/IncomeItems";
+import Stat from "../pages/Stat";
+import IncomeStat from "../pages/IncomeStat";
 
 const AppRouter = () => {
     return (        
@@ -20,6 +22,8 @@ const AppRouter = () => {
                 <Route path="/register" component={Register} exact/>
                 <Route path="/profile" component={Profile} exact/>
                 <Route path="/income/:id" component={IncomeItems} exact/>
+                <Route path="/stat" component={Stat} exact/>
+                <Route path="/incomeStat" component={IncomeStat} exact/>
         </Switch>
     )
 }

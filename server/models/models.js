@@ -30,6 +30,7 @@ const User = sequelize.define('users', {
 const Income = sequelize.define('incomes',{
     id: {type:DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
     header: {type:DataTypes.STRING},
+    date: {type:DataTypes.DATE}
 },{timestamps:false})
 
 const IncomeItem = sequelize.define('income_items', {
