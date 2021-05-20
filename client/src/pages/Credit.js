@@ -1,31 +1,23 @@
 import React,{useState} from 'react';
 import {Container, Form,Row,Col, Button}from 'react-bootstrap';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCredit} from "../store/asyncActions/credit";
 
 const Credit = () => {
-    const [money,setMoney] = useState([{sum:0, month:0}]);
-    const [moneyItem, setMoneyItem] = useState({});
+    const [money,setMoney] = useState({sum:0, months:0,procent:0});
+    const credit = useSelector(state=>state.credit.result);
+    const dispatch = useDispatch();
 
     const handleChange = (e)=>{
         e.preventDefault();
         const {name,value} = e.target;
-        setMoneyItem({...moneyItem, [name]:+value});
+        setMoney({...money, [name]: value});
     }
 
-    //need to rework formula
     const countData = (e)=>{
-        const moneys = [];
         e.preventDefault();
-        for(let i=0;i<moneyItem.months;i++){
-            let mon={month:i, sum:0};
-            if(moneys.length === 0){
-                mon.sum = moneyItem.money/moneyItem.months + moneyItem.procent/100;                
-            }
-            else{
-                mon.sum = moneys[moneys.length-1].sum + moneyItem.procent/100;
-            }
-            moneys.push(mon);
-        } 
-        setMoney(moneys);
+        dispatch({type: "CLEAR_CREDIT"});
+        dispatch(fetchCredit(money));
     }
 
     return (
@@ -35,19 +27,19 @@ const Credit = () => {
                     <Col>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Money</Form.Label>
-                            <Form.Control type="number" name="money" placeholder="Enter money" onChange={(e)=>handleChange(e)}/>
+                            <Form.Control type="number" min={1} name="sum" placeholder="Enter money" onChange={(e)=>handleChange(e)}/>
                         </Form.Group>   
                     </Col>
                     <Col>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Procent per year</Form.Label>
-                            <Form.Control type="number" name="procent" placeholder="Enter procent" onChange={(e)=>handleChange(e)}/>
+                            <Form.Control type="number" min={1} name="procent" placeholder="Enter procent" onChange={(e)=>handleChange(e)}/>
                         </Form.Group>   
                     </Col>
                     <Col>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Months</Form.Label>
-                            <Form.Control type="number" name="months" placeholder="Enter months" onChange={(e)=>handleChange(e)}/>
+                            <Form.Control type="number" min={1} name="months" placeholder="Enter months" onChange={(e)=>handleChange(e)}/>
                         </Form.Group>   
                     </Col>
                 </Row>
@@ -58,8 +50,8 @@ const Credit = () => {
                 </Row>
 
                 {
-                    money.map((el,id)=>{
-                        return <div key={id}>{el.sum} {el.month}</div>
+                    credit.map((el,id)=>{
+                        return <div key={id}>{el.month} {el.mainSum} {el.procentPerMonth} {el.sumPerMonth}</div>
                     })
                 }
             </Form>

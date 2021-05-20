@@ -12,6 +12,7 @@ import {dateReducer} from "./dateReducer";
 import {statReducer} from "./statReducer";
 import {errorReducer} from "./errorReducer";
 import {debtReducer} from "./debtReducer";
+import {creditReducer} from "./creditReducer";
 const rootReducer = combineReducers({
     finances: financesReducer,
     modals: modalsReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     date: dateReducer,
     stat: statReducer,
     error: errorReducer,
-    debt: debtReducer
+    debt: debtReducer,
+    credit: creditReducer
 })
 export const store =  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
