@@ -17,7 +17,6 @@ const Login = ()=>{
     const logInHandler = (e)=>{
         e.preventDefault();
         dispatch(logIn(data));
-        history.push("/profile")
     }
 
     return <Container>

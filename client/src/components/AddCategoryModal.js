@@ -5,12 +5,16 @@ import {addCategoryAction} from "../store/asyncActions/category";
 
 const AddCategoryModal =({show, onHide})=>{
     const value = useSelector(state=>state.categories.addCategoryName);
+    const error = useSelector(state=>state.error.showError);
     const dispatch = useDispatch();
 
     const addCategory = (e)=>{
         e.preventDefault();
         dispatch(addCategoryAction(value));
-        window.location.reload();
+
+        if(error){
+            window.location.reload();
+        }
     }
     
     return (

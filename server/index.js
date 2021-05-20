@@ -8,22 +8,16 @@ const fileUpload = require("express-fileupload");
 const path = require('path');
 const PORT = process.env.PORT ||  3000;
 const app = express();
-
+const ws = require("./websockets/socket");
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(cors());
 app.use("/api", routes);
 
-
-app.get('/refresh',async (req,res)=>{
-     await sequelize.sync({force:true});
-     res.send("Drop");
-})
 const start = async()=>{
     try{
         await sequelize.authenticate();
         await sequelize.sync();
-        
         app.listen(PORT, () => console.log(`Started on the port ${PORT}`));
 
     }catch(e){

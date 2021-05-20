@@ -1,10 +1,12 @@
 const {Category} = require('../models/models');
+const {sendMessage} = require("../websockets/socket");
 class CategoryController{
     async create(req, res){
         const body = req.body;
         body.userId = req.user.id;
         const checkCategory = await Category.findAll({where: {name: body.name, userId: req.user.id}, raw: true});
-        if(checkCategory.length){   
+        if(checkCategory.length){
+            sendMessage("Category already exists");
             return res.status(400).json({"message": "Category already exists"});
         }
         const category = await Category.create(body);

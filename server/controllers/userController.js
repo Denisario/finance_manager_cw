@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {User} = require("../models/models");
 const webDav = require("../other/webdav");
+const {sendMessage} = require("../websockets/socket");
 class UserController{
     async create(req,res){
         const {email, password, repeatPassword} =req.body;
@@ -9,10 +10,12 @@ class UserController{
         const chekUser = await User.findAll({where: {email}, raw:true});
 
         if(chekUser.length){
+            sendMessage("User already exists");
             return res.status(400).json({"message": "User already exists"});
         }
 
         if(password!==repeatPassword){
+            sendMessage("Passwords are not equal");
             return res.status(400).json({"message": "Password are not equal"});
         }
 
@@ -33,12 +36,16 @@ class UserController{
         const user = await User.findAll({where: {email}, raw:true});
 
         if(!user[0]){
-            return res.status(400).json({"message": "user not found"});
+            console.log("da");
+            sendMessage("User not found");
+            return res.status(400).json({"message": "User not found"});
         }
 
         const result = await bcrypt.compare(req.body.password,user[0].password);
 
         if(!result){
+            console.log("da1");
+            sendMessage("Wrong password");
             return  res.status(400).json({"message": "Wrong password"});
         }
 

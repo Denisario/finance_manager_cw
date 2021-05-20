@@ -1,6 +1,7 @@
 const {Income,IncomeItem,Category} = require('../models/models');
 const { Op } = require("sequelize");
 const db = require("../db");
+const {sendMessage} = require("../websockets/socket");
 
 class IncomeController{
     async create(req,res){
@@ -45,6 +46,7 @@ class IncomeController{
         ]}, include:{model:IncomeItem, as:"income_items", include:{model:Category, as:"category"}}});
 
         if(!data.length){
+            sendMessage("Income not found");
             return res.status(404).json({"message": "Income not found"});
         }
         res.status(200).json(data);

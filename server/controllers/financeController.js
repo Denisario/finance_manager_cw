@@ -1,6 +1,7 @@
 const {Finance, FinanceItem,Category} = require("../models/models");
 const sequelize = require("sequelize");
 const db = require("../db");
+const {sendMessage} = require("../websockets/socket");
 class FinanceController {
     async create(req,res){
         const body = req.body;
@@ -60,6 +61,7 @@ class FinanceController {
                 ]}, include:[{model:Category, as:'category'},{model:FinanceItem, as:'finance_items'}]});
 
         if(!finances[0]){
+            sendMessage("Finance not found");
             return res.status(404).json({"message": "Finance not found"})
         }
         return res.json(finances);
@@ -72,6 +74,7 @@ class FinanceController {
                 ]}, returning:true});
 
         if(!finance[1][0]){
+            sendMessage("Finance not found");
             return res.status(404).json({"message": "Finance not found"})
         }
 
@@ -82,6 +85,7 @@ class FinanceController {
         const item = await Finance.findAll({where: {id: req.params.id}});
 
         if(!item.length){
+            sendMessage("Finance not found");
             return res.status(404).json({"message": "Finance not found"})
         }
 

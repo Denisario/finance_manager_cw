@@ -1,0 +1,8 @@
+.errorAlert{
+    z-index: 1080;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 500px;
+    height: 200px;
+}
