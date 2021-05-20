@@ -16,7 +16,6 @@ const Profile = (props)=>{
 
     const [tabKey, setTabKey] = useState("categories");
     useEffect(()=>{
-        dispatch({type: "GET_USER"});
         dispatch(fetchIncome());
         return ()=>{
             dispatch({type: "CLEAR_INCOME"});
@@ -40,7 +39,6 @@ const Profile = (props)=>{
         e.preventDefault();
         dispatch({type:"SHOW_CATEGORY_MODAL"})
     }
-
     return <Container>
         <Row>
             <div>Welcome {localStorage.getItem("username")}</div>

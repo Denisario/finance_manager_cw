@@ -6,10 +6,13 @@ const categoryRouter = require('./categoryRouter');
 const userRouter = require('./userRouter');
 const incomeRouter = require('./incomeRouter');
 const fileRouter = require("./fileRouter");
+const debtRouter = require("./debtRouter");
+
 router.use('/finances', financeRouter);
 router.use('/categories', categoryRouter);
 router.use('/income', incomeRouter);
 router.use('/', userRouter);
 router.use('/files', fileRouter);
+router.use('/debts', debtRouter);
 
 module.exports = router;

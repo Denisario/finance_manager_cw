@@ -7,7 +7,7 @@ export const fetchIncome = ()=>{
                 authorization: "Bearer "+localStorage.getItem("token")
             }}).then(data=>{
             dispatch(addIncomes(data.data))
-        });
+        }).then();
     }
 }
 

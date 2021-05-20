@@ -4,7 +4,6 @@ import {addFinanceAction, addFinancesAction} from "../financesReducer";
 export const fetchFinances = (page,itemsPerPage,startDate,finishDate)=>{
 
     return (dispatch) =>{
-        console.log(page,itemsPerPage,startDate,finishDate);
         let url = `http://localhost:5000/api/finances?page=${page}&&itemsPerPage=${itemsPerPage}`;
         if(startDate){
             url+=`&&startDate=${new Date(startDate).toISOString().replace('T',' ').replace('Z','')};`

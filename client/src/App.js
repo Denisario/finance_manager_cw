@@ -19,8 +19,8 @@ const App = ()=>{
 
     return (
      <div>
-         <Header></Header>
          <BrowserRouter>
+             <Header></Header>
              <AppRouter></AppRouter>
          </BrowserRouter>
          {error.showError&& <ErrorPage msg={error.error}></ErrorPage>}

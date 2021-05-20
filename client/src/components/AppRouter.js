@@ -12,18 +12,21 @@ import Stat from "../pages/Stat";
 import IncomeStat from "../pages/IncomeStat";
 
 const AppRouter = () => {
+    window.addEventListener("storage", function () {
+        console.log("dad");
+    }, false);
     return (        
         <Switch>
-                <Route path="/finances" component={Finances} exact/>
-                <Route path="/finance/:id" component={Finance} exact/>
-                <Route path="/credit" component={Credit} exact/>
-                <Route path="/debt" component={Debt} exact/>
-                <Route path="/" component={Login} exact/>
-                <Route path="/register" component={Register} exact/>
-                <Route path="/profile" component={Profile} exact/>
-                <Route path="/income/:id" component={IncomeItems} exact/>
-                <Route path="/stat" component={Stat} exact/>
-                <Route path="/incomeStat" component={IncomeStat} exact/>
+            <Route path="/login" component={Login} exact/>
+            <Route path="/register" component={Register} exact/>
+            {(localStorage.getItem("id")!==null)&&<Route path="/finances" component={Finances} exact/>}
+            {(localStorage.getItem("id")!==null)&&<Route path="/finance/:id" component={Finance} exact/>}
+            {(localStorage.getItem("id")!==null)&&<Route path="/credit" component={Credit} exact/>}
+            {(localStorage.getItem("id")!==null)&&<Route path="/debt" component={Debt} exact/>}
+            <Route path="/profile" component={Profile} exact/>
+            {(localStorage.getItem("id")!==null)&&<Route path="/income/:id" component={IncomeItems} exact/>}
+            {(localStorage.getItem("id")!==null)&&<Route path="/stat" component={Stat} exact/>}
+            {(localStorage.getItem("id")!==null)&&<Route path="/incomeStat" component={IncomeStat} exact/>}
         </Switch>
     )
 }

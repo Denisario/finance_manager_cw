@@ -2,7 +2,7 @@ const defaultStore = {
     addFinanceModal: false,
     addCategoryModal: false,
     editFinanceModal: false,
-    addMoneyModal: false
+    addMoneyModal: false,
 }
 
 const SHOW_FINANCE_MODAL = "SHOW_FINANCE_MODAL";

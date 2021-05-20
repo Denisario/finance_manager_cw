@@ -16,7 +16,8 @@ const Login = ()=>{
 
     const logInHandler = (e)=>{
         e.preventDefault();
-        dispatch(logIn(data));
+        dispatch(logIn(data, history))
+        console.log(1);
     }
 
     return <Container>

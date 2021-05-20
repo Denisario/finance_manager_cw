@@ -1,6 +1,7 @@
 const defaultStore = {
     username: "",
-    token:""
+    token:"",
+    loggedIn: false
 }
 
 const LOG_IN = "LOG_IN";
@@ -10,9 +11,9 @@ const GET_USER ="GET_USER";
 export const userReducer = (state = defaultStore, action)=>{
     switch (action.type){
         case LOG_IN:
-            return {...state, username: action.payload.email, token:action.payload.token};
+            return {...state, username: action.payload.email, token:action.payload.token, loggedIn: true};
         case LOG_OUT:
-            return {...state, username: "", token: ""};
+            return {...state, username: "", token: "", loggedIn: false};
         case GET_USER:
             return {...state};
         default:
